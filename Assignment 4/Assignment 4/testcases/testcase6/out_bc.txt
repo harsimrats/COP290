@@ -1,0 +1,2 @@
+in_bc.txt 1: syntax error
+in_bc.txt 1: syntax error

@@ -1,0 +1,439 @@
+Grammar
+
+    0 $accept: Input $end
+
+    1 Input: %empty
+    2      | EOL expr EOL
+
+    3 expr: FLOAT
+    4     | expr PLUS expr
+    5     | expr MINUS expr
+    6     | expr TIMES expr
+    7     | expr DIV expr
+    8     | MINUS expr
+    9     | OB expr CB
+   10     | SQRT OB expr CB
+   11     | LOG OB expr CB
+   12     | POW OB expr COMMA expr CB
+
+
+Terminals, with rules where they appear
+
+$end (0) 0
+error (256)
+FLOAT (258) 3
+PLUS (259) 4
+MINUS (260) 5 8
+DIV (261) 7
+TIMES (262) 6
+EOL (263) 2
+OB (264) 9 10 11 12
+CB (265) 9 10 11 12
+SQRT (266) 10
+LOG (267) 11
+POW (268) 12
+COMMA (269) 12
+
+
+Nonterminals, with rules where they appear
+
+$accept (15)
+    on left: 0
+Input (16)
+    on left: 1 2, on right: 0
+expr (17)
+    on left: 3 4 5 6 7 8 9 10 11 12, on right: 2 4 5 6 7 8 9 10 11
+    12
+
+
+State 0
+
+    0 $accept: . Input $end
+
+    EOL  shift, and go to state 1
+
+    $default  reduce using rule 1 (Input)
+
+    Input  go to state 2
+
+
+State 1
+
+    2 Input: EOL . expr EOL
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 9
+
+
+State 2
+
+    0 $accept: Input . $end
+
+    $end  shift, and go to state 10
+
+
+State 3
+
+    3 expr: FLOAT .
+
+    $default  reduce using rule 3 (expr)
+
+
+State 4
+
+    8 expr: MINUS . expr
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 11
+
+
+State 5
+
+    9 expr: OB . expr CB
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 12
+
+
+State 6
+
+   10 expr: SQRT . OB expr CB
+
+    OB  shift, and go to state 13
+
+
+State 7
+
+   11 expr: LOG . OB expr CB
+
+    OB  shift, and go to state 14
+
+
+State 8
+
+   12 expr: POW . OB expr COMMA expr CB
+
+    OB  shift, and go to state 15
+
+
+State 9
+
+    2 Input: EOL expr . EOL
+    4 expr: expr . PLUS expr
+    5     | expr . MINUS expr
+    6     | expr . TIMES expr
+    7     | expr . DIV expr
+
+    PLUS   shift, and go to state 16
+    MINUS  shift, and go to state 17
+    DIV    shift, and go to state 18
+    TIMES  shift, and go to state 19
+    EOL    shift, and go to state 20
+
+
+State 10
+
+    0 $accept: Input $end .
+
+    $default  accept
+
+
+State 11
+
+    4 expr: expr . PLUS expr
+    5     | expr . MINUS expr
+    6     | expr . TIMES expr
+    7     | expr . DIV expr
+    8     | MINUS expr .
+
+    $default  reduce using rule 8 (expr)
+
+
+State 12
+
+    4 expr: expr . PLUS expr
+    5     | expr . MINUS expr
+    6     | expr . TIMES expr
+    7     | expr . DIV expr
+    9     | OB expr . CB
+
+    PLUS   shift, and go to state 16
+    MINUS  shift, and go to state 17
+    DIV    shift, and go to state 18
+    TIMES  shift, and go to state 19
+    CB     shift, and go to state 21
+
+
+State 13
+
+   10 expr: SQRT OB . expr CB
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 22
+
+
+State 14
+
+   11 expr: LOG OB . expr CB
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 23
+
+
+State 15
+
+   12 expr: POW OB . expr COMMA expr CB
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 24
+
+
+State 16
+
+    4 expr: expr PLUS . expr
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 25
+
+
+State 17
+
+    5 expr: expr MINUS . expr
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 26
+
+
+State 18
+
+    7 expr: expr DIV . expr
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 27
+
+
+State 19
+
+    6 expr: expr TIMES . expr
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 28
+
+
+State 20
+
+    2 Input: EOL expr EOL .
+
+    $default  reduce using rule 2 (Input)
+
+
+State 21
+
+    9 expr: OB expr CB .
+
+    $default  reduce using rule 9 (expr)
+
+
+State 22
+
+    4 expr: expr . PLUS expr
+    5     | expr . MINUS expr
+    6     | expr . TIMES expr
+    7     | expr . DIV expr
+   10     | SQRT OB expr . CB
+
+    PLUS   shift, and go to state 16
+    MINUS  shift, and go to state 17
+    DIV    shift, and go to state 18
+    TIMES  shift, and go to state 19
+    CB     shift, and go to state 29
+
+
+State 23
+
+    4 expr: expr . PLUS expr
+    5     | expr . MINUS expr
+    6     | expr . TIMES expr
+    7     | expr . DIV expr
+   11     | LOG OB expr . CB
+
+    PLUS   shift, and go to state 16
+    MINUS  shift, and go to state 17
+    DIV    shift, and go to state 18
+    TIMES  shift, and go to state 19
+    CB     shift, and go to state 30
+
+
+State 24
+
+    4 expr: expr . PLUS expr
+    5     | expr . MINUS expr
+    6     | expr . TIMES expr
+    7     | expr . DIV expr
+   12     | POW OB expr . COMMA expr CB
+
+    PLUS   shift, and go to state 16
+    MINUS  shift, and go to state 17
+    DIV    shift, and go to state 18
+    TIMES  shift, and go to state 19
+    COMMA  shift, and go to state 31
+
+
+State 25
+
+    4 expr: expr . PLUS expr
+    4     | expr PLUS expr .
+    5     | expr . MINUS expr
+    6     | expr . TIMES expr
+    7     | expr . DIV expr
+
+    DIV    shift, and go to state 18
+    TIMES  shift, and go to state 19
+
+    $default  reduce using rule 4 (expr)
+
+
+State 26
+
+    4 expr: expr . PLUS expr
+    5     | expr . MINUS expr
+    5     | expr MINUS expr .
+    6     | expr . TIMES expr
+    7     | expr . DIV expr
+
+    DIV    shift, and go to state 18
+    TIMES  shift, and go to state 19
+
+    $default  reduce using rule 5 (expr)
+
+
+State 27
+
+    4 expr: expr . PLUS expr
+    5     | expr . MINUS expr
+    6     | expr . TIMES expr
+    7     | expr . DIV expr
+    7     | expr DIV expr .
+
+    $default  reduce using rule 7 (expr)
+
+
+State 28
+
+    4 expr: expr . PLUS expr
+    5     | expr . MINUS expr
+    6     | expr . TIMES expr
+    6     | expr TIMES expr .
+    7     | expr . DIV expr
+
+    $default  reduce using rule 6 (expr)
+
+
+State 29
+
+   10 expr: SQRT OB expr CB .
+
+    $default  reduce using rule 10 (expr)
+
+
+State 30
+
+   11 expr: LOG OB expr CB .
+
+    $default  reduce using rule 11 (expr)
+
+
+State 31
+
+   12 expr: POW OB expr COMMA . expr CB
+
+    FLOAT  shift, and go to state 3
+    MINUS  shift, and go to state 4
+    OB     shift, and go to state 5
+    SQRT   shift, and go to state 6
+    LOG    shift, and go to state 7
+    POW    shift, and go to state 8
+
+    expr  go to state 32
+
+
+State 32
+
+    4 expr: expr . PLUS expr
+    5     | expr . MINUS expr
+    6     | expr . TIMES expr
+    7     | expr . DIV expr
+   12     | POW OB expr COMMA expr . CB
+
+    PLUS   shift, and go to state 16
+    MINUS  shift, and go to state 17
+    DIV    shift, and go to state 18
+    TIMES  shift, and go to state 19
+    CB     shift, and go to state 33
+
+
+State 33
+
+   12 expr: POW OB expr COMMA expr CB .
+
+    $default  reduce using rule 12 (expr)
